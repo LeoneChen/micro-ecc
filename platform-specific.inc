@@ -5,7 +5,7 @@
 
 #include "types.h"
 
-#if (defined(_WIN32) || defined(_WIN64))
+#if (defined(_WIN32) || defined(_WIN64)) && !defined(SGX)
 /* Windows */
 
 #define WIN32_LEAN_AND_MEAN
@@ -24,8 +24,8 @@ static int default_RNG(uint8_t *dest, unsigned size) {
 }
 #define default_RNG_defined 1
 
-#elif defined(unix) || defined(__linux__) || defined(__unix__) || defined(__unix) || \
-    (defined(__APPLE__) && defined(__MACH__)) || defined(uECC_POSIX)
+#elif !defined(SGX) && (defined(unix) || defined(__linux__) || defined(__unix__) || defined(__unix) || \
+    (defined(__APPLE__) && defined(__MACH__)) || defined(uECC_POSIX))
 
 /* Some POSIX-like system with /dev/urandom or /dev/random. */
 #include <sys/types.h>
